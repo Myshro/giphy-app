@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giphy App</title>
+</head>
+<body>
+    <button type="button">Get new GIF</button>
+    <img src="#" alt="Random gif">
+    <h1>Currently searched GIF: </h1>
+    <div class="trigger">
+        <p>cat</p>
+    </div>
+    <script>
+        const img = document.querySelector('img');
+        const button = document.querySelector('button');
+        let link = 'https://api.giphy.com/v1/gifs/translate?api_key=L3Veo01o4BtRp703ZBUE1s66gqpyTxbg&s=cat';
+        function fetchGif() {
+            fetch(link, {mode: 'cors'})
+            .then(response => response.json())
+            .then(response => img.src = response.data.images.original.url)
+            .catch(() => alert('Failed to find a gif or gif failed to load'))
+        };
+        fetchGif();
+
+        function askUser() {
+            const currentGifP = document.querySelector('p');
+            wantedGif = String(prompt('Search for new type of gif: '));
+            link = `https://api.giphy.com/v1/gifs/translate?api_key=L3Veo01o4BtRp703ZBUE1s66gqpyTxbg&s=${wantedGif}`;
+            currentGifP.textContent = wantedGif
+            fetchGif();
+        }
+        button.addEventListener('click', askUser);
+    </script>
+
+    <style>
+        body {
+            margin: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 50px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        img {
+            border: none;
+            margin: 0;
+        }
+
+        button {
+            padding: 10px 30px 10px 30px;
+            background-color: black;
+            color: whitesmoke;
+            margin: 0;
+        }
+
+        h1 {
+            margin: 0;
+        }
+        
+        button:hover {
+            background-color: whitesmoke;
+            color: black;
+            cursor: pointer;
+        }
+
+        p {
+            transition: transform 300ms ease-in-out;
+            margin: 0;
+        }
+
+
+        
+        .trigger:hover p {
+            transform: translate(200px, 150px) rotate(30deg);
+        }
+    </style>
+</body>
+</html>
