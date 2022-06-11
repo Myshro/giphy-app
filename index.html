@@ -16,14 +16,33 @@
     <script>
         const img = document.querySelector('img');
         const button = document.querySelector('button');
+        button.addEventListener('click', askUser);
+
         let link = 'https://api.giphy.com/v1/gifs/translate?api_key=L3Veo01o4BtRp703ZBUE1s66gqpyTxbg&s=cat';
-        function fetchGif() {
-            fetch(link, {mode: 'cors'})
-            .then(response => response.json())
-            .then(response => img.src = response.data.images.original.url)
-            .catch(() => alert('Failed to find a gif or gif failed to load'))
+
+        //Written with async / wait
+        async function fetchGif() {
+            try {
+                const response = await fetch(link, {mode: 'cors'});
+                const data = await response.json();
+                img.src = data.data.images.original.url;
+            } catch {
+                alert('Failed to find a gif')
+            }
+            
         };
+
         fetchGif();
+        
+        //Written with promise 
+        // let link = 'https://api.giphy.com/v1/gifs/translate?api_key=L3Veo01o4BtRp703ZBUE1s66gqpyTxbg&s=cat';
+        // function fetchGif() {
+            // fetch(link, {mode: 'cors'})
+            // .then(response => response.json())
+            // .then(response => img.src = response.data.images.original.url)
+            // .catch(() => alert('Failed to find a gif or gif failed to load'))
+        // };
+        // fetchGif();
 
         function askUser() {
             const currentGifP = document.querySelector('p');
@@ -32,7 +51,6 @@
             currentGifP.textContent = wantedGif
             fetchGif();
         }
-        button.addEventListener('click', askUser);
     </script>
 
     <style>
